@@ -5,6 +5,9 @@ angular.module('app.controller', [])
     chat.tempUserName = "";
     chat.namePrompted = false;
     chat.joined = false;
+    chat.messageId = 1;
+    chat.newMessage = "";
+    chat.messages = [];
 
     chat.enterName = function() {
         if (!chat.tempUserName.trim()) {
@@ -21,4 +24,26 @@ angular.module('app.controller', [])
     chat.joinChat = function() {
         chat.joined = true;
     };
+
+    chat.saveMessages = function() {
+        localStorage.setItem('chatMessages', JSON.stringify(chat.messages));
+    };
+
+    chat.sendMessage = function() {
+        if (!chat.newMessage.trim()) {
+            return;
+        }
+        chat.messages.push({ id: chat.messageId++, sender: chat.userName, text: chat.newMessage });
+        chat.saveMessages();
+        chat.newMessage = "";
+    };
+
+    chat.loadMessages = function() {
+        var savedMessages = localStorage.getItem('chatMessages');
+        if (savedMessages) {
+            chat.messages = JSON.parse(savedMessages);
+        }
+    };
+
+    chat.loadMessages();
 });
