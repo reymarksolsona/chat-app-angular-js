@@ -1,7 +1,8 @@
 angular.module('app.controller', [])
 .controller('ChatController', function($scope, $window) {
     var chat = this;
-    chat.userName = $window.localStorage.getItem('userName_') || "";
+    chat.userId = $window.localStorage.getItem('userId') || uuidv4();
+    chat.userName = $window.localStorage.getItem('userName_' + chat.userId) || "";
     chat.tempUserName = "";
     chat.namePrompted = false;
     chat.joined = false;
@@ -15,7 +16,7 @@ angular.module('app.controller', [])
             return;
         }
         chat.userName = chat.tempUserName;
-        $window.localStorage.setItem('userName_', chat.userName);
+        $window.localStorage.setItem('userName_' + chat.userId, chat.userName);
         chat.tempUserName = "";
         chat.namePrompted = false;
         chat.joinChat();
@@ -30,13 +31,22 @@ angular.module('app.controller', [])
     };
 
     chat.sendMessage = function() {
-        if (!chat.newMessage.trim()) {
+        if (!chat.newMessage.trim() || !chat.joined) {
             return;
         }
-        chat.messages.push({ id: chat.messageId++, sender: chat.userName, text: chat.newMessage });
+
+        var newMessage = {
+            id: uuidv4(),
+            senderId: chat.userId,
+            sender: chat.userName,
+            text: chat.newMessage
+        };
+
+        chat.messages.push(newMessage);
         chat.saveMessages();
         chat.newMessage = "";
     };
+
 
     chat.loadMessages = function() {
         var savedMessages = localStorage.getItem('chatMessages');
@@ -44,6 +54,12 @@ angular.module('app.controller', [])
             chat.messages = JSON.parse(savedMessages);
         }
     };
-
+    
     chat.loadMessages();
+
+    $window.addEventListener('storage', function(event) {
+        if (event.key === 'chatMessages') {
+            chat.loadMessages();
+        }
+    });
 });
