@@ -1,0 +1,40 @@
+/* Custom styles */
+.chat-input {
+    resize: none;
+    overflow: hidden;
+}
+
+.message-bubble {
+    display: flex;
+    align-items: center;
+    max-width: 350px;
+}
+.message-text {
+    max-width: 80%; /* Adjust the maximum width as needed */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.icon {
+    font-size: 30px;
+    margin-right: 10px;
+}
+
+.chat-window {
+    max-width: 400px; /* Adjust the max-width to your desired size */
+    margin: auto; /* Center the chat window horizontally */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+#header {
+    background: #5755FE;
+}
+
+.primary-bg-color {
+    background-color: #5755FE;
+}
+
+.primary-text-color {
+    color: #5755FE;
+}
