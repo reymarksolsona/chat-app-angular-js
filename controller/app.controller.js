@@ -74,7 +74,7 @@ angular.module('app.controller', [])
 
     chat.startAutoUpdate = function() {
         chat.autoUpdateTimer = $interval(function() {
-            chat.loadNewMessages();
+            chat.loadMessages();
         }, chat.pollingInterval);
     };
 
