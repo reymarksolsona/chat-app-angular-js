@@ -4,11 +4,12 @@ angular.module('app.controller', [])
     chat.userId = $window.localStorage.getItem('userId') || uuidv4();
     chat.userName = $window.localStorage.getItem('userName_' + chat.userId) || "";
     chat.tempUserName = "";
-    chat.namePrompted = false;
-    chat.joined = false;
-    chat.messageId = 1;
-    chat.newMessage = "";
     chat.messages = [];
+    chat.visibleMessages = [];
+    chat.newMessage = "";
+    chat.pageSize = 5;
+    chat.joined = false;
+    chat.namePrompted = false;
 
     chat.enterName = function() {
         if (!chat.tempUserName.trim()) {
@@ -22,44 +23,67 @@ angular.module('app.controller', [])
         chat.joinChat();
     };
 
+    chat.openNamePrompt = function() {
+        chat.namePrompted = true;
+    };
+
     chat.joinChat = function() {
         chat.joined = true;
+        chat.loadMessages();
+    };
+
+    chat.loadMessages = function() {
+        var savedMessages = $window.localStorage.getItem('chatMessages');
+        if (savedMessages) {
+            chat.messages = JSON.parse(savedMessages);
+        }
+        chat.updateVisibleMessages();
     };
 
     chat.saveMessages = function() {
-        localStorage.setItem('chatMessages', JSON.stringify(chat.messages));
+        $window.localStorage.setItem('chatMessages', JSON.stringify(chat.messages));
     };
 
     chat.sendMessage = function() {
         if (!chat.newMessage.trim() || !chat.joined) {
             return;
         }
-
         var newMessage = {
             id: uuidv4(),
             senderId: chat.userId,
             sender: chat.userName,
             text: chat.newMessage
         };
-
         chat.messages.push(newMessage);
         chat.saveMessages();
         chat.newMessage = "";
+        chat.updateVisibleMessages();
     };
 
+    chat.updateVisibleMessages = function() {
+        chat.visibleMessages = chat.messages.slice(-chat.pageSize);
+    };
 
-    chat.loadMessages = function() {
-        var savedMessages = localStorage.getItem('chatMessages');
-        if (savedMessages) {
-            chat.messages = JSON.parse(savedMessages);
+    chat.loadMoreMessages = function() {
+        var element = $window.document.getElementById('chat-messages');
+        if (element.scrollTop === 0 && chat.pageSize < chat.messages.length) {
+            chat.pageSize += 25;
+            chat.updateVisibleMessages();
         }
     };
-    
+
     chat.loadMessages();
 
     $window.addEventListener('storage', function(event) {
         if (event.key === 'chatMessages') {
             chat.loadMessages();
+        }
+    });
+
+    var chatWindow = $window.document.getElementById('chat-messages');
+    chatWindow.addEventListener('scroll', function() {
+        if (chatWindow.scrollTop === 0) {
+            chat.loadMoreMessages();
         }
     });
 });
