@@ -36,7 +36,7 @@
                         <span class="font-semibold text-sm text-gray-800 mb-1" ng-class="{'text-right': message.senderId === chat.userId, 'text-left': message.senderId !== chat.userId}">{{ message.sender }}</span>
                         <div class="message-bubble">
                             <i ng-if="message.senderId !== chat.userId" class="fas fa-user-circle icon text-gray-400"></i>
-                            <div ng-class="{'primary-bg-color text-white': message.senderId === chat.userId, 'bg-blue-100': message.senderId !== chat.userId}" class="rounded-lg px-4 py-2">
+                            <div ng-class="{'primary-bg-color text-white': message.senderId === chat.userId, 'bg-blue-100': message.senderId !== chat.userId}" class="rounded-lg px-4 py-2 message-text">
                                 <span class="text-sm">{{ message.text }}</span>
                             </div>
                             <i ng-if="message.senderId === chat.userId" class="fas fa-user-circle icon ml-2 primary-text-color"></i>
@@ -46,6 +46,7 @@
             </div>
         </div>
     </div>
+    
 
     <div class="primary-bg-color shadow-md px-6 py-4 flex items-center justify-between">
         <textarea ng-model="chat.newMessage" placeholder="Type your message..." class="border rounded px-2 py-1 mr-2 flex-grow chat-input"></textarea>

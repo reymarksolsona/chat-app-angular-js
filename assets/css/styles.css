@@ -7,6 +7,12 @@
 .message-bubble {
     display: flex;
     align-items: center;
+    max-width: 350px;
+}
+.message-text {
+    max-width: 80%; /* Adjust the maximum width as needed */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .icon {
