@@ -13,9 +13,18 @@
     font-size: 20px;
     margin-right: 10px;
 }
+
 .chat-window {
     max-width: 400px; /* Adjust the max-width to your desired size */
     margin: auto; /* Center the chat window horizontally */
     border: 1px solid #ccc;
     border-radius: 10px;
+}
+
+#header {
+    background: #5755FE;
+}
+
+.primary-color {
+    background-color: #5755FE;
 }
