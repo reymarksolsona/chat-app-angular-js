@@ -1,5 +1,5 @@
 angular.module('app.controller', [])
-.controller('ChatController', function($scope, $window) {
+.controller('ChatController', function($scope, $window, $interval) {
     var chat = this;
     chat.userId = $window.localStorage.getItem('userId') || uuidv4();
     chat.userName = $window.localStorage.getItem('userName_' + chat.userId) || "";
@@ -72,7 +72,21 @@ angular.module('app.controller', [])
         }
     };
 
+    chat.startAutoUpdate = function() {
+        chat.autoUpdateTimer = $interval(function() {
+            chat.loadNewMessages();
+        }, chat.pollingInterval);
+    };
+
+    chat.stopAutoUpdate = function() {
+        if (angular.isDefined(chat.autoUpdateTimer)) {
+            $interval.cancel(chat.autoUpdateTimer);
+            chat.autoUpdateTimer = undefined;
+        }
+    };
+
     chat.loadMessages();
+    chat.startAutoUpdate();
 
     $window.addEventListener('storage', function(event) {
         if (event.key === 'chatMessages') {
