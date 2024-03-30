@@ -3,11 +3,59 @@
 <head>
     <meta charset="UTF-8" />
     <title>Web Chat - Angular JS</title>
-    <link href="assets/css/tailwind.min.css" rel="stylesheet">
+    <link href="assets/css/tailwind/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/font-awesome/css/all.min.css"> <!-- Include Font Awesome CSS -->
     <link href="assets/css/styles.css" rel="stylesheet">
 </head>
-<body>
-    
+<body ng-controller="ChatController as chat" class="bg-gray-100 h-screen flex flex-col">
+    <div ng-show="false" class="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-800 bg-opacity-75 z-50">
+        <div class="bg-white rounded-lg p-8">
+            <h3 class="text-xl font-semibold mb-4">Enter Your Name</h3>
+            <input type="text" class="border rounded px-3 py-2 w-full mb-4">
+            <button class="bg-blue-500 text-white px-4 py-2 rounded w-full">Enter Chat</button>
+        </div>
+    </div>
+
+    <div class="bg-white shadow-md px-6 py-4 flex items-center justify-between">
+        <h2 class="text-xl font-semibold text-gray-800">Chat App</h2>
+    </div>
+
+    <div class="flex-grow overflow-y-auto px-6 py-4">
+        <div id="chat-messages" class="max-w-md mx-auto">
+            <div class="flex flex-col mb-4">
+                <div class="flex mb-1 justify-end">
+                    <div class="flex flex-col items-end"> <!-- Changed here to align items at the end -->
+                        <span class="font-semibold text-sm text-gray-800 mb-1">Test</span>
+                        <div class="message-bubble">
+                            <i class="fas fa-user-circle icon"></i> <!-- Font Awesome icon -->
+                            <div class="bg-blue-100 rounded-lg px-4 py-2">
+                                <span class="text-sm">Test Msg</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col mb-4">
+                <div class="flex mb-1 justify-start">
+                    <div class="flex flex-col items-start"> <!-- Changed here to align items at the start -->
+                        <span class="font-semibold text-sm text-gray-800 mb-1">Test</span>
+                        <div class="message-bubble">
+                            <i class="fas fa-user-circle icon"></i> <!-- Font Awesome icon -->
+                            <div class="bg-blue-100 rounded-lg px-4 py-2">
+                                <span class="text-sm">Test Msg</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white shadow-md px-6 py-4 flex items-center justify-between">
+        <textarea placeholder="Type your message..." class="border rounded px-2 py-1 mr-2 flex-grow chat-input"></textarea>
+        <button class="bg-blue-500 text-white px-4 py-2 rounded">Send</button>
+    </div>
+
     <script src="assets/angular/angular.min.js"></script>
     <script src="app.module.js"></script>
     <script src="controller/app.controller.js"></script>
